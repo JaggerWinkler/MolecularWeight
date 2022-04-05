@@ -1,3 +1,4 @@
+import math
 elements = {'H': 1.00794, 'He': 4.002602, 'Li': 6.941, 'Be': 9.012182, 'B': 10.811, 'C': 12.0107, 'N': 14.0067,
                 'O': 15.9994, 'F': 18.9984032, 'Ne': 20.1797, 'Na': 22.98976928, 'Mg': 24.305, 'Al': 26.9815386,
                 'Si': 28.0855, 'P': 30.973762, 'S': 32.065, 'Cl': 35.453, 'Ar': 39.948, 'K': 39.0983, 'Ca': 40.078,
@@ -37,7 +38,7 @@ blank_elements={'H': 0, 'He': 0, 'Li': 0, 'Be': 0, 'B': 0, 'C': 0, 'N': 0,
                 'Ds': 0, 'Rg': 0, 'Cn': 0, 'Nh': 0, 'Fl': 0, 'Mc': 0, 'Lv': 0, 'Ts': 0, 'Og': 0}
  
 
-def getWeight(input):
+def getWeight(input, sig = "x"):
     #splits array at spaces
     arr = input.split(" ")
     #convert all strings to ints when possible
@@ -55,21 +56,27 @@ def getWeight(input):
     if (type(arr[len(arr)-1]) == str):
         arr.append(1)
     #add corsponding quantites to blank blank_elements
+    #throws error if key does not exist
     for i in range (0, len(arr), 2):
         try:
             temp = blank_elements.get(arr[i]) + arr[i+1]
             blank_elements.update({arr[i]: temp})
         except:
-            return "Invalid response"
-    return calculate(blank_elements)
-
-def calculate (calc):
+            return "Invalid entry"
+    #goes through every element in the quantity dictionay and adds the molar weight
     total = 0
     for i in blank_elements:
-        total = total + (elements.get(i) * calc.get(i))
+        total = total + (elements.get(i) * blank_elements.get(i))
+    #if a number of sig figs is entered, returns proper sig figs
+    #if not, passes and returns with no rounding
+    try:
+        total = round(total, sig-int(math.floor(math.log10(abs(x))))-2)
+        return total
+    except:
+        pass
     return total
 
 def main():
-    print(getWeight("O O O O"))
+    print(getWeight("Na Cl", 4))
 if __name__ == "__main__":
     main()
