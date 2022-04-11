@@ -1,5 +1,8 @@
 import math
-elements = {'H': 1.00794, 'He': 4.002602, 'Li': 6.941, 'Be': 9.012182, 'B': 10.811, 'C': 12.0107, 'N': 14.0067,
+import warnings
+ 
+def get_weight(input, sig = "x"):
+    elements = {'H': 1.00794, 'He': 4.002602, 'Li': 6.941, 'Be': 9.012182, 'B': 10.811, 'C': 12.0107, 'N': 14.0067,
                 'O': 15.9994, 'F': 18.9984032, 'Ne': 20.1797, 'Na': 22.98976928, 'Mg': 24.305, 'Al': 26.9815386,
                 'Si': 28.0855, 'P': 30.973762, 'S': 32.065, 'Cl': 35.453, 'Ar': 39.948, 'K': 39.0983, 'Ca': 40.078,
                 'Sc': 44.955912, 'Ti': 47.867, 'V': 50.9415, 'Cr': 51.9961, 'Mn': 54.938045,
@@ -18,7 +21,7 @@ elements = {'H': 1.00794, 'He': 4.002602, 'Li': 6.941, 'Be': 9.012182, 'B': 10.8
                 'No': 259.1009, 'Lr': 262, 'Rf': 267, 'Db': 268, 'Sg': 271, 'Bh': 270, 'Hs': 269, 'Mt': 278,
                 'Ds': 281, 'Rg': 281, 'Cn': 285, 'Nh': 284, 'Fl': 289, 'Mc': 289, 'Lv': 292, 'Ts': 294, 'Og': 294}
 
-blank_elements={'H': 0, 'He': 0, 'Li': 0, 'Be': 0, 'B': 0, 'C': 0, 'N': 0,
+    blank_elements={'H': 0, 'He': 0, 'Li': 0, 'Be': 0, 'B': 0, 'C': 0, 'N': 0,
                 'O': 0, 'F': 0, 'Ne': 0, 'Na': 0, 'Mg': 0, 'Al': 0,
                 'Si': 0, 'P': 0, 'S': 0, 'Cl': 0, 'Ar': 0, 'K': 0, 
                 'Ca': 0, 'Sc': 0, 'Ti': 0, 'V': 0, 'Cr': 0, 'Mn': 0,
@@ -37,8 +40,6 @@ blank_elements={'H': 0, 'He': 0, 'Li': 0, 'Be': 0, 'B': 0, 'C': 0, 'N': 0,
                 'No': 0, 'Lr': 0, 'Rf': 0, 'Db': 0, 'Sg': 0, 'Bh': 0, 'Hs': 0, 'Mt': 0,
                 'Ds': 0, 'Rg': 0, 'Cn': 0, 'Nh': 0, 'Fl': 0, 'Mc': 0, 'Lv': 0, 'Ts': 0, 'Og': 0}
  
-
-def getWeight(input, sig = "x"):
     #splits array at spaces
     arr = input.split(" ")
     #convert all strings to ints when possible
@@ -62,6 +63,7 @@ def getWeight(input, sig = "x"):
             temp = blank_elements.get(arr[i]) + arr[i+1]
             blank_elements.update({arr[i]: temp})
         except:
+            warnings.warn("Invalid Entry")
             return "Invalid entry"
     #goes through every element in the quantity dictionay and adds the molar weight
     total = 0
@@ -77,6 +79,6 @@ def getWeight(input, sig = "x"):
     return total
 
 def main():
-    print(getWeight("Na Cl", 4))
+    print(get_weight("Na Cl"))
 if __name__ == "__main__":
     main()
